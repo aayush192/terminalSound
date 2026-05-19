@@ -1,8 +1,8 @@
 {
-  "name": "your-terminal-extension",
-  "displayName": "Terminal Sound extension",
+  "name": "terminal-status-sound",
+  "displayName": "Terminal Status Sound",
   "description": "Plays sounds on errors, warnings, and success",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "AyushKhadka",
   "engines": {
     "vscode": "^1.80.0"
@@ -26,6 +26,8 @@
     "play-sound": "^1.1.6"
   },
   "devDependencies": {
+    "@types/node": "^25.9.0",
+    "@types/play-sound": "^1.1.2",
     "@types/vscode": "1.80.0",
     "@vscode/vsce": "^3.9.1",
     "tsx": "^4.22.2",

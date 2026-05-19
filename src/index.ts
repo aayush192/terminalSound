@@ -9,8 +9,10 @@ type Severity = "error" | "warning" | "none";
 let previousSeverity: Severity = "none";
 let debounceTimer: NodeJS.Timeout | undefined;
 
+
 function play(file: string) {
   sound.play(path.join(__dirname, "../public/sounds", file), (err) => {
+   
     if (err) console.error(`Failed to play sound: ${err}`);
   });
 }
@@ -24,14 +26,13 @@ function getWorstSeverity(): Severity {
       if (d.severity === vscode.DiagnosticSeverity.Warning) hasWarning = true;
     }
   }
-
+ 
   return hasWarning ? "warning" : "none";
 }
 
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.languages.onDidChangeDiagnostics(() => {
     if (debounceTimer) clearTimeout(debounceTimer);
-
     debounceTimer = setTimeout(() => {
       const currentSeverity = getWorstSeverity();
 
@@ -47,6 +48,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(disposable);
 }
+
 
 export function deactivate() {
   if (debounceTimer) clearTimeout(debounceTimer);
