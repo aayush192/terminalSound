@@ -16,7 +16,7 @@
   "main": "src/extension.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/you/your-repo"
+    "url": "https://github.com/aayush192/terminalSound.git"
   },
   "scripts": {
     "test": "test",
