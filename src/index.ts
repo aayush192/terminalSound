@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import player from "play-sound";
+import { ignoredCommands } from "./constants/ignoreCommand";
 
 const sound = player();
 
@@ -46,13 +47,20 @@ export function activate(context: vscode.ExtensionContext) {
 
   const terminalDisposable = vscode.window.onDidEndTerminalShellExecution(
     (e) => {
+      const command = e.execution.commandLine.value;
+      if (ignoredCommands.some((cmd) => command.startsWith(cmd))) return;
       if (e.exitCode === undefined) return;
-      if (e.exitCode === 1) play("terminalError.mp3");
-      if (e.exitCode === 0) play("terminalSuccess.mp3");
+      if (e.exitCode === 1) {
+        play("terminalError.mp3");
+      }
+      if (e.exitCode === 0 && command.includes("git"))
+        play("terminalSuccess.mp3");
+
+      return;
     }
   );
 
-  context.subscriptions.push(disposable,terminalDisposable);
+  context.subscriptions.push(disposable, terminalDisposable);
 }
 
 export function deactivate() {

@@ -41,6 +41,7 @@ exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
 const path = __importStar(require("path"));
 const play_sound_1 = __importDefault(require("play-sound"));
+const ignoreCommand_1 = require("./constants/ignoreCommand");
 const sound = (0, play_sound_1.default)();
 let previousSeverity = "none";
 let debounceTimer;
@@ -80,12 +81,17 @@ function activate(context) {
         }, 500);
     });
     const terminalDisposable = vscode.window.onDidEndTerminalShellExecution((e) => {
+        const command = e.execution.commandLine.value;
+        if (ignoreCommand_1.ignoredCommands.some((cmd) => command.startsWith(cmd)))
+            return;
         if (e.exitCode === undefined)
             return;
-        if (e.exitCode === 1)
+        if (e.exitCode === 1) {
             play("terminalError.mp3");
-        if (e.exitCode === 0)
+        }
+        if (e.exitCode === 0 && command.includes("git"))
             play("terminalSuccess.mp3");
+        return;
     });
     context.subscriptions.push(disposable, terminalDisposable);
 }
