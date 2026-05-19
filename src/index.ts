@@ -9,10 +9,8 @@ type Severity = "error" | "warning" | "none";
 let previousSeverity: Severity = "none";
 let debounceTimer: NodeJS.Timeout | undefined;
 
-
 function play(file: string) {
   sound.play(path.join(__dirname, "../public/sounds", file), (err) => {
-   
     if (err) console.error(`Failed to play sound: ${err}`);
   });
 }
@@ -26,7 +24,7 @@ function getWorstSeverity(): Severity {
       if (d.severity === vscode.DiagnosticSeverity.Warning) hasWarning = true;
     }
   }
- 
+
   return hasWarning ? "warning" : "none";
 }
 
@@ -39,16 +37,23 @@ export function activate(context: vscode.ExtensionContext) {
       if (currentSeverity !== previousSeverity) {
         if (currentSeverity === "error") play("error.mp3");
         else if (currentSeverity === "warning") play("warning.mp3");
-        else if (previousSeverity !== "none") play("success.mp3");
+        else if (previousSeverity !== "none") return;
 
         previousSeverity = currentSeverity;
       }
     }, 500);
   });
 
-  context.subscriptions.push(disposable);
-}
+  const terminalDisposable = vscode.window.onDidEndTerminalShellExecution(
+    (e) => {
+      if (e.exitCode === undefined) return;
+      if (e.exitCode === 1) play("terminalError.mp3");
+      if (e.exitCode === 0) play("terminalSuccess.mp3");
+    }
+  );
 
+  context.subscriptions.push(disposable,terminalDisposable);
+}
 
 export function deactivate() {
   if (debounceTimer) clearTimeout(debounceTimer);

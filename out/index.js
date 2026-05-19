@@ -74,12 +74,20 @@ function activate(context) {
                 else if (currentSeverity === "warning")
                     play("warning.mp3");
                 else if (previousSeverity !== "none")
-                    play("success.mp3");
+                    return;
                 previousSeverity = currentSeverity;
             }
         }, 500);
     });
-    context.subscriptions.push(disposable);
+    const terminalDisposable = vscode.window.onDidEndTerminalShellExecution((e) => {
+        if (e.exitCode === undefined)
+            return;
+        if (e.exitCode === 1)
+            play("terminalError.mp3");
+        if (e.exitCode === 0)
+            play("terminalSuccess.mp3");
+    });
+    context.subscriptions.push(disposable, terminalDisposable);
 }
 function deactivate() {
     if (debounceTimer)
