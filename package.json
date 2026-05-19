@@ -1,0 +1,34 @@
+{
+  "name": "your-extension-name",
+  "displayName": "Your Extension",
+  "description": "Plays sounds on errors, warnings, and success",
+  "version": "0.0.1",
+  "publisher": "your-publisher-id",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "src/extension.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/you/your-repo"
+  },
+  "scripts": {
+    "test": "test",
+    "build": "tsc -p ./",
+    "start": "node ./out/index.js"
+  },
+  "dependencies": {
+    "play-sound": "^1.1.6",
+    "vscode": "^1.1.37"
+  },
+  "devDependencies": {
+    "tsx": "^4.22.2",
+    "typescript": "^6.0.3"
+  }
+}
