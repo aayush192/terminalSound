@@ -1,9 +1,9 @@
 {
-  "name": "your-extension-name",
-  "displayName": "Your Extension",
+  "name": "your-terminal-extension",
+  "displayName": "Terminal Sound extension",
   "description": "Plays sounds on errors, warnings, and success",
   "version": "0.0.1",
-  "publisher": "your-publisher-id",
+  "publisher": "AyushKhadka",
   "engines": {
     "vscode": "^1.80.0"
   },
@@ -13,21 +13,21 @@
   "activationEvents": [
     "onStartupFinished"
   ],
-  "main": "src/extension.ts",
+  "main": "./out/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/aayush192/terminalSound.git"
   },
   "scripts": {
     "test": "test",
-    "build": "tsc -p ./",
-    "start": "node ./out/index.js"
+    "build": "tsc -p ./"
   },
   "dependencies": {
-    "play-sound": "^1.1.6",
-    "vscode": "^1.1.37"
+    "play-sound": "^1.1.6"
   },
   "devDependencies": {
+    "@types/vscode": "1.80.0",
+    "@vscode/vsce": "^3.9.1",
     "tsx": "^4.22.2",
     "typescript": "^6.0.3"
   }
