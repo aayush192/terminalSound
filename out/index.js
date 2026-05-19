@@ -89,7 +89,7 @@ function activate(context) {
         if (e.exitCode === 1) {
             play("terminalError.mp3");
         }
-        if (e.exitCode === 0 && command.includes("git"))
+        if (e.exitCode === 0 && !command.includes("git"))
             play("terminalSuccess.mp3");
         return;
     });
